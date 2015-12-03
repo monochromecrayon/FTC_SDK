@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\FTC Programmer\Desktop\FTC_SDK-master\ftc_app-master\FtcRobotController\libs\d2xx.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="549d88cce99830dc2ae951a13d5a8b897362351b">
+        <dex dex="C:\Users\FTC Programmer\Desktop\FTC_SDK-master\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\d2xx-ff4117628486b127796bf9a8ea26f68ae40f9f6c.jar" />
+    </item>
+
+</items>
