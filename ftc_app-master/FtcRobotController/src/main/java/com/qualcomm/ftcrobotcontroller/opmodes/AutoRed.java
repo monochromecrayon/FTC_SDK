@@ -39,14 +39,14 @@ public class AutoRed extends OpMode{
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
-        arm = hardwareMap.dcMotor.get("arm");
+        arm = hardwareMap.dcMotor.get("claw");
 
         sensorGyro  = hardwareMap.gyroSensor.get("accel");
 
         sensorGyro.calibrate();
 
         while(sensorGyro.isCalibrating()){
-            Thread.sleep(50);
+            return;
         }
     }
 

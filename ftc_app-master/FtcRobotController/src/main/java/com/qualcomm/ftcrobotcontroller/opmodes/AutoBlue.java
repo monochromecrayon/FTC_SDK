@@ -5,12 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import android.util.Log;
 
 /**
  * Created by Gus Caplan on 11/3/2015.
  */
 
 public class AutoBlue extends OpMode{
+    private static final String TAG = "ROBOT";
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -22,8 +24,6 @@ public class AutoBlue extends OpMode{
     GyroSensor sensorGyro;
 
     final static double CIRCUMFERENCE = Math.PI * Constants.WHEEL_DIAMETER;
-    final static double ROTATIONS = Constants.DISTANCE / CIRCUMFERENCE;
-    final static double COUNTS = Constants.ENCODER_CPR * ROTATIONS * Constants.GEAR_RATIO;
 
     int xVal, yVal, zVal = 0;
     int heading = 0;
@@ -39,37 +39,54 @@ public class AutoBlue extends OpMode{
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
-        arm = hardwareMap.dcMotor.get("arm");
+        arm = hardwareMap.dcMotor.get("claw");
 
         sensorGyro  = hardwareMap.gyroSensor.get("accel");
 
         sensorGyro.calibrate();
 
         while(sensorGyro.isCalibrating()){
-            Thread.sleep(50);
+            return;
         }
     }
 
     @Override
     public void start(){
-        motorFrontRight.setTargetPosition((int) COUNTS);
-        motorFrontLeft.setTargetPosition((int) COUNTS);
-        motorBackRight.setTargetPosition((int) COUNTS);
-        motorBackLeft.setTargetPosition((int) COUNTS);
 
-        motorFrontRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorFrontLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorBackRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        void  move(int power, int counts){
+            double ROTATIONS = counts / CIRCUMFERENCE;
+            double COUNTS = Constants.ENCODER_CPR * ROTATIONS * Constants.GEAR_RATIO;
+            motorFrontRight.setTargetPosition((int) COUNTS);
+            motorFrontLeft.setTargetPosition((int) COUNTS);
+            motorBackRight.setTargetPosition((int) COUNTS);
+            motorBackLeft.setTargetPosition((int) COUNTS);
 
-        motorFrontRight.setPower(0.5);
-        motorFrontLeft.setPower(0.5);
-        motorBackRight.setPower(0.5);
-        motorBackLeft.setPower(0.5);
+            motorFrontRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            motorFrontLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            motorBackRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            motorBackLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        xVal = sensorGyro.rawX();
-        yVal = sensorGyro.rawY();
-        zVal = sensorGyro.rawZ();
+            motorFrontRight.setPower(power);
+            motorFrontLeft.setPower(power);
+            motorBackRight.setPower(power);
+            motorBackLeft.setPower(power);
+        }
+
+        void rotate(int rot, int power){
+            xVal = sensorGyro.rawX();
+            yVal = sensorGyro.rawY();
+            zVal = sensorGyro.rawZ();
+            heading = sensorGyro.getHeading();
+
+            while(heading <= rot){
+                motorFrontRight.setPower(power);
+                motorFrontLeft.setPower(power);
+                motorBackRight.setPower(-power);
+                motorBackLeft.setPower(-power);
+            }
+
+            Log.d(TAG, "did not fail today!");
+        }
     }
 
     public void loop(){

@@ -32,7 +32,7 @@ public class MainTeleOp extends OpMode {
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#init()
      */
     @Override
-    public void init_loop() {
+    public void init() {
 
 
 		/*
