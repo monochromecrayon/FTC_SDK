@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.ServoController;
+import com.qualcomm.robotcore.hardware.Servo;
+
 
 /**
  * Created by Gus Caplan on 11/3/2015.
@@ -19,6 +22,8 @@ public class MainTeleOp extends OpMode {
     DcMotor winch;
     DcMotor arm;
 
+    Servo leftFlappy;
+    Servo rightFlappy;
     /**
      * Constructor
      */
@@ -40,15 +45,17 @@ public class MainTeleOp extends OpMode {
 		 * that the names of the devices must match the names used when you
 		 * configured your robot and created the configuration file.
         */
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
 
-        motorFrontRight = hardwareMap.dcMotor.get("motor_1");
+        motorFrontRight = hardwareMap.dcMotor.get("frontRight");
 
-        motorFrontLeft = hardwareMap.dcMotor.get("motor_2");
-        motorBackRight = hardwareMap.dcMotor.get("motor_3");
-        motorBackLeft = hardwareMap.dcMotor.get("motor_4");
+        motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
+        motorBackRight = hardwareMap.dcMotor.get("backRight");
+        motorBackLeft = hardwareMap.dcMotor.get("backLeft");
 
         winch = hardwareMap.dcMotor.get("winch");
-        arm = hardwareMap.dcMotor.get("claw");
+        arm = hardwareMap.dcMotor.get("arm");
 
         //reverse left motors because they are facing opposite the right ones
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -82,6 +89,10 @@ public class MainTeleOp extends OpMode {
         float backLeft = 0;
         float right = -gamepad1.right_stick_y;
         float left = -gamepad1.left_stick_y;
+        int rightTrigger = 0;
+        int leftTrigger = 0;
+        double rightPos = rightFlappy.getPosition();
+        double leftPos = leftFlappy.getPosition();
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
@@ -114,7 +125,29 @@ public class MainTeleOp extends OpMode {
         float stick2ly = gamepad2.left_stick_y;
         float stick2ry = -gamepad2.right_stick_y;
 
-        arm.setPower(stick2ly/5);
+
+
+
+        if (gamepad2.left_trigger > 0.5) {
+            leftFlappy.setDirection(Servo.Direction.FORWARD);
+            leftFlappy.setPosition(0);
+        }
+        else if(gamepad2.left_bumper){
+            leftFlappy.setDirection(Servo.Direction.REVERSE);
+            leftFlappy.setPosition(0);}
+        else{leftFlappy.setPosition(0.5);} // 0.5 is off, 0 is on
+
+
+        if (gamepad2.right_trigger > 0.5) {
+            rightFlappy.setDirection(Servo.Direction.REVERSE);
+            rightFlappy.setPosition(0);
+        }
+        else if(gamepad2.right_bumper){
+            rightFlappy.setDirection(Servo.Direction.FORWARD);
+            rightFlappy.setPosition(0);}
+        else{rightFlappy.setPosition(0.5);}
+
+        arm.setPower( stick2ly/5);
         winch.setPower(stick2ry);
     }
 
