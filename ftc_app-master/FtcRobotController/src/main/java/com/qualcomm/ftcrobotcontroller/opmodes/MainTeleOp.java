@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 /**
- * Created by Gus Caplan on 11/3/2015.
+ * Created by Gus Caplan on 11/03/2015.
  */
 
 public class MainTeleOp extends OpMode {
@@ -22,14 +22,16 @@ public class MainTeleOp extends OpMode {
     DcMotor winch;
     DcMotor arm;
 
-    Servo leftFlappy;
-    Servo rightFlappy;
+    //Servo leftFlappy;
+    //Servo rightFlappy;
     /**
      * Constructor
      */
+
     public MainTeleOp() {
 
     }
+
 
     /*
      * Code to run when the op mode is initialized goes here
@@ -45,11 +47,10 @@ public class MainTeleOp extends OpMode {
 		 * that the names of the devices must match the names used when you
 		 * configured your robot and created the configuration file.
         */
-        leftFlappy = hardwareMap.servo.get("leftFlappy");
-        rightFlappy = hardwareMap.servo.get("rightFlappy");
+       // leftFlappy = hardwareMap.servo.get("leftFlappy");
+      //  rightFlappy = hardwareMap.servo.get("rightFlappy");
 
         motorFrontRight = hardwareMap.dcMotor.get("frontRight");
-
         motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
         motorBackRight = hardwareMap.dcMotor.get("backRight");
         motorBackLeft = hardwareMap.dcMotor.get("backLeft");
@@ -60,11 +61,15 @@ public class MainTeleOp extends OpMode {
         //reverse left motors because they are facing opposite the right ones
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
         motorFrontRight.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         motorFrontLeft.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         motorBackRight.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         motorBackLeft.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        arm.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        winch.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
 
     }
 
@@ -89,24 +94,24 @@ public class MainTeleOp extends OpMode {
         float backLeft = 0;
         float right = -gamepad1.right_stick_y;
         float left = -gamepad1.left_stick_y;
-        int rightTrigger = 0;
-        int leftTrigger = 0;
-        double rightPos = rightFlappy.getPosition();
-        double leftPos = leftFlappy.getPosition();
 
-        // clip the right/left values so that the values never exceed +/- 1
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
+
+
+
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
-        right = (float) scaleInput(right);
-        left = (float) scaleInput(left);
+        //right = (float) scaleInput(right);
+        //left = (float) scaleInput(left);
+
+        right = Range.clip(right, -1, 1);
+        left = Range.clip(left, -1, 1);
 
         frontRight = right;
         frontLeft = left;
         backRight = right;
         backLeft = left;
+
 
         if(right == 0 && left == 0) {
             // separate wheel control
@@ -115,6 +120,7 @@ public class MainTeleOp extends OpMode {
             backRight = (gamepad1.y ? 1 : 0) - (gamepad1.a ? 1 : 0);
             backLeft = (gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0);
         }
+
 
         motorFrontRight.setPower(frontRight);
         motorFrontLeft.setPower(frontLeft);
@@ -125,29 +131,36 @@ public class MainTeleOp extends OpMode {
         float stick2ly = gamepad2.left_stick_y;
         float stick2ry = -gamepad2.right_stick_y;
 
-
-
+        /*
+        float sspeed = 0;
+        if (gamepad2.a) {
+            sspeed = (float) 0.3;
+        } else {
+            sspeed = 0;
+        }
 
         if (gamepad2.left_trigger > 0.5) {
-            leftFlappy.setDirection(Servo.Direction.FORWARD);
-            leftFlappy.setPosition(0);
+            //leftFlappy.setDirection(Servo.Direction.FORWARD);
+            leftFlappy.setPosition(sspeed);
         }
         else if(gamepad2.left_bumper){
-            leftFlappy.setDirection(Servo.Direction.REVERSE);
-            leftFlappy.setPosition(0);}
+            //leftFlappy.setDirection(Servo.Direction.REVERSE);
+            leftFlappy.setPosition(1-sspeed);}
         else{leftFlappy.setPosition(0.5);} // 0.5 is off, 0 is on
 
 
         if (gamepad2.right_trigger > 0.5) {
-            rightFlappy.setDirection(Servo.Direction.REVERSE);
-            rightFlappy.setPosition(0);
+            //rightFlappy.setDirection(Servo.Direction.REVERSE);
+            rightFlappy.setPosition(sspeed);
         }
         else if(gamepad2.right_bumper){
-            rightFlappy.setDirection(Servo.Direction.FORWARD);
-            rightFlappy.setPosition(0);}
+            //rightFlappy.setDirection(Servo.Direction.FORWARD);
+            rightFlappy.setPosition(1-sspeed);}
         else{rightFlappy.setPosition(0.5);}
+        */
 
-        arm.setPower( stick2ly/5);
+
+        arm.setPower(stick2ly/3);
         winch.setPower(stick2ry);
     }
 

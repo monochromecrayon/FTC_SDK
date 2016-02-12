@@ -27,10 +27,10 @@ import android.util.Log;
 
 
 /**
- * Created by Gus Caplan and A. Lee on 02/12/2016.
+ * Created by Gus Caplan and A. Lee on 11/3/2015.
  */
 
-public class AutoRed extends LinearOpMode{
+public class AutoBlue45 extends LinearOpMode{
     //private static final String TAG = "ROBOT";
 
     DcMotor motorFrontRight;
@@ -43,9 +43,9 @@ public class AutoRed extends LinearOpMode{
     //ColorSensor sensorColorLeft;
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
+    Servo leftFlappy;
+    Servo rightFlappy;
 
-    //Servo leftFlappy;
-    //Servo rightFlappy;
 
 
 
@@ -81,8 +81,8 @@ public class AutoRed extends LinearOpMode{
         hardwareMap.logDevices();
         // bEnabled represents the state of the LED.
 
-      //  leftFlappy = hardwareMap.servo.get("leftFlappy");
-      //  rightFlappy = hardwareMap.servo.get("rightFlappy");
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
         // sensorColorLeft.enableLed(false);
@@ -91,6 +91,7 @@ public class AutoRed extends LinearOpMode{
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
         motorFrontRight.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         motorFrontLeft.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -118,54 +119,42 @@ public class AutoRed extends LinearOpMode{
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-       // leftFlappy.setDirection(Servo.Direction.FORWARD);
-        /*
-        rightFlappy.setDirection(Servo.Direction.REVERSE);
-        //leftFlappy.setPosition(0);
-        rightFlappy.setPosition(0);
-        sleep(500);
-        //leftFlappy.setPosition(0.5);
-        rightFlappy.setPosition(0.5);
-        */
-        trackHeading(0, 24, 0.6);
 
-        arm.setPower(0.5);
+        trackHeading(0, 50, 0.8);
+        leftFlappy.setDirection(Servo.Direction.FORWARD);
+        rightFlappy.setDirection(Servo.Direction.REVERSE);
+        leftFlappy.setPosition(0);
+        //rightFlappy.setPosition(0);
+        sleep(560);
+        leftFlappy.setPosition(0.5);
+        //rightFlappy.setPosition(0.5);
+
+        arm.setPower(0.6);
         sleep(350);
         arm.setPower(0);
 
-
-
-        turn(315, turnPower);
+        turn(45, turnPower);
         sleep(500);
-        trackHeading(315, 64, 0.6);
+        trackHeading(45, 18, 0.6);
 
         sleep(500);
-
-
-
-        turn(267, turnPower);
-        sleep(500);
-        trackHeading(270, 28, 1);
-        sleep(500);
-
         arm.setPower(0.4);
         sleep(1000);
         arm.setPower(0);
-        sleep(200);
+        sleep(1000);
         arm.setPower(-.4);
         sleep(500);
         arm.setPower(0);
 
-        sleep(200);
         encoderBackwards(20, 0.6);
         sleep(500);
 
-        turn(135, turnPower);
-        trackHeading(135, 20, 0.6);
+        turn(180, turnPower);
+        trackHeading(180, 20, 0.6);
         sleep(500);
-        turn(225,turnPower);
+        turn(90,turnPower);
         sleep(500);
-        trackHeading(224,140,1);
+        trackHeading(90,100,1);
         allStop();
 
 
@@ -219,7 +208,7 @@ public class AutoRed extends LinearOpMode{
         double COUNTSBR = brcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
         double COUNTSFR = frcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
         double COUNTSFL = flcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
-
+        resetStartTime();
         int my_heading = sensorGyro.getHeading();
         while ((flcount + frcount)/2 < ((COUNTSFL + COUNTSFR)/2) && getRuntime() < millis) {
             blcount = motorBackLeft.getCurrentPosition();
@@ -260,6 +249,7 @@ public class AutoRed extends LinearOpMode{
 
             }
             sleep(20);
+
 
         }
         for(double i = power; i > 0; i = i - _power/10){

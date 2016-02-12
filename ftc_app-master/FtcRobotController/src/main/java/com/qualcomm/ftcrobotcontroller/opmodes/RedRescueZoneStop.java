@@ -30,7 +30,7 @@ import android.util.Log;
  * Created by Gus Caplan and A. Lee on 02/12/2016.
  */
 
-public class AutoRed extends LinearOpMode{
+public class RedRescueZoneStop extends LinearOpMode{
     //private static final String TAG = "ROBOT";
 
     DcMotor motorFrontRight;
@@ -44,8 +44,8 @@ public class AutoRed extends LinearOpMode{
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
 
-    //Servo leftFlappy;
-    //Servo rightFlappy;
+   // Servo leftFlappy;
+  //  Servo rightFlappy;
 
 
 
@@ -81,8 +81,8 @@ public class AutoRed extends LinearOpMode{
         hardwareMap.logDevices();
         // bEnabled represents the state of the LED.
 
-      //  leftFlappy = hardwareMap.servo.get("leftFlappy");
-      //  rightFlappy = hardwareMap.servo.get("rightFlappy");
+    //    leftFlappy = hardwareMap.servo.get("leftFlappy");
+     //   rightFlappy = hardwareMap.servo.get("rightFlappy");
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
         // sensorColorLeft.enableLed(false);
@@ -118,7 +118,7 @@ public class AutoRed extends LinearOpMode{
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-       // leftFlappy.setDirection(Servo.Direction.FORWARD);
+        // leftFlappy.setDirection(Servo.Direction.FORWARD);
         /*
         rightFlappy.setDirection(Servo.Direction.REVERSE);
         //leftFlappy.setPosition(0);
@@ -137,35 +137,17 @@ public class AutoRed extends LinearOpMode{
 
         turn(315, turnPower);
         sleep(500);
-        trackHeading(315, 64, 0.6);
+        trackHeading(315, 57, 0.6);
 
         sleep(500);
 
 
 
-        turn(267, turnPower);
+        turn(265, turnPower);
         sleep(500);
         trackHeading(270, 28, 1);
         sleep(500);
 
-        arm.setPower(0.4);
-        sleep(1000);
-        arm.setPower(0);
-        sleep(200);
-        arm.setPower(-.4);
-        sleep(500);
-        arm.setPower(0);
-
-        sleep(200);
-        encoderBackwards(20, 0.6);
-        sleep(500);
-
-        turn(135, turnPower);
-        trackHeading(135, 20, 0.6);
-        sleep(500);
-        turn(225,turnPower);
-        sleep(500);
-        trackHeading(224,140,1);
         allStop();
 
 

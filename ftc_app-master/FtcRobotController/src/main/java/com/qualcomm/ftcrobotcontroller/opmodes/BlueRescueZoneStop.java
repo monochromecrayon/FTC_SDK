@@ -30,7 +30,7 @@ import android.util.Log;
  * Created by Gus Caplan and A. Lee on 02/12/2016.
  */
 
-public class AutoRed extends LinearOpMode{
+public class BlueRescueZoneStop extends LinearOpMode{
     //private static final String TAG = "ROBOT";
 
     DcMotor motorFrontRight;
@@ -43,9 +43,8 @@ public class AutoRed extends LinearOpMode{
     //ColorSensor sensorColorLeft;
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
-
-    //Servo leftFlappy;
-    //Servo rightFlappy;
+  //  Servo leftFlappy;
+  //  Servo rightFlappy;
 
 
 
@@ -118,54 +117,37 @@ public class AutoRed extends LinearOpMode{
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-       // leftFlappy.setDirection(Servo.Direction.FORWARD);
-        /*
-        rightFlappy.setDirection(Servo.Direction.REVERSE);
-        //leftFlappy.setPosition(0);
-        rightFlappy.setPosition(0);
-        sleep(500);
-        //leftFlappy.setPosition(0.5);
-        rightFlappy.setPosition(0.5);
-        */
+
         trackHeading(0, 24, 0.6);
+
+        /* DISABLE SERVOS B/C NOT WORKING WELL
+        leftFlappy.setDirection(Servo.Direction.FORWARD);
+        //rightFlappy.setDirection(Servo.Direction.REVERSE);
+        leftFlappy.setPosition(0);
+        //rightFlappy.setPosition(0);
+        sleep(560);
+        leftFlappy.setPosition(0.5);
+        //rightFlappy.setPosition(0.5);
+        */
 
         arm.setPower(0.5);
         sleep(350);
         arm.setPower(0);
 
-
-
-        turn(315, turnPower);
+        turn(45, turnPower);
         sleep(500);
-        trackHeading(315, 64, 0.6);
+        trackHeading(45, 57, 0.6);
 
         sleep(500);
 
 
 
-        turn(267, turnPower);
+        turn(85, turnPower);
         sleep(500);
-        trackHeading(270, 28, 1);
-        sleep(500);
-
-        arm.setPower(0.4);
-        sleep(1000);
-        arm.setPower(0);
-        sleep(200);
-        arm.setPower(-.4);
-        sleep(500);
-        arm.setPower(0);
-
-        sleep(200);
-        encoderBackwards(20, 0.6);
+        trackHeading(89, 28, 1);
         sleep(500);
 
-        turn(135, turnPower);
-        trackHeading(135, 20, 0.6);
-        sleep(500);
-        turn(225,turnPower);
-        sleep(500);
-        trackHeading(224,140,1);
+
         allStop();
 
 
@@ -219,7 +201,7 @@ public class AutoRed extends LinearOpMode{
         double COUNTSBR = brcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
         double COUNTSFR = frcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
         double COUNTSFL = flcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
-
+        resetStartTime();
         int my_heading = sensorGyro.getHeading();
         while ((flcount + frcount)/2 < ((COUNTSFL + COUNTSFR)/2) && getRuntime() < millis) {
             blcount = motorBackLeft.getCurrentPosition();
@@ -260,6 +242,7 @@ public class AutoRed extends LinearOpMode{
 
             }
             sleep(20);
+
 
         }
         for(double i = power; i > 0; i = i - _power/10){
