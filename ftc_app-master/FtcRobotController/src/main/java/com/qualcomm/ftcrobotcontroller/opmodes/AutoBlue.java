@@ -43,14 +43,9 @@ public class AutoBlue extends LinearOpMode{
     //ColorSensor sensorColorLeft;
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
-<<<<<<< HEAD
+
     //Servo leftFlappy;
     //Servo rightFlappy;
-=======
-    Servo leftFlappy;
-    Servo rightFlappy;
-
->>>>>>> origin/master
 
 
 
@@ -86,13 +81,8 @@ public class AutoBlue extends LinearOpMode{
         hardwareMap.logDevices();
         // bEnabled represents the state of the LED.
 
-<<<<<<< HEAD
         //leftFlappy = hardwareMap.servo.get("leftFlappy");
        // rightFlappy = hardwareMap.servo.get("rightFlappy");
-=======
-        leftFlappy = hardwareMap.servo.get("leftFlappy");
-        rightFlappy = hardwareMap.servo.get("rightFlappy");
->>>>>>> origin/master
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
        // sensorColorLeft.enableLed(false);
@@ -101,10 +91,6 @@ public class AutoBlue extends LinearOpMode{
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-<<<<<<< HEAD
-=======
-        arm.setDirection(DcMotor.Direction.REVERSE);
->>>>>>> origin/master
 
         motorFrontRight.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         motorFrontLeft.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -128,15 +114,10 @@ public class AutoBlue extends LinearOpMode{
 
         waitForStart();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
 
-<<<<<<< HEAD
        trackHeading(0, 24, 0.6);
 
         /* DISABLE SERVOS B/C NOT WORKING WELL
@@ -150,26 +131,13 @@ public class AutoBlue extends LinearOpMode{
         */
 
         arm.setPower(0.5);
-=======
-        trackHeading(0, 24, 0.6);
 
-        leftFlappy.setDirection(Servo.Direction.FORWARD);
-        rightFlappy.setDirection(Servo.Direction.REVERSE);
-        leftFlappy.setPosition(0);
-        rightFlappy.setPosition(0);
-        sleep(250);
-        rightFlappy.setPosition(0.5);
-        sleep(250);
-        leftFlappy.setPosition(0.5);
-
-        arm.setPower(0.4);
->>>>>>> origin/master
         sleep(350);
         arm.setPower(0);
 
         turn(45, turnPower);
         sleep(500);
-<<<<<<< HEAD
+
         trackHeading(45, 64, 0.6);
 
         sleep(500);
@@ -185,23 +153,7 @@ public class AutoBlue extends LinearOpMode{
         sleep(200);
         arm.setPower(-.4);
         sleep(400);
-=======
-        trackHeading(45, 57, 0.6);
 
-        sleep(500);
-
-        turn(85, turnPower);
-        sleep(500);
-        trackHeading(90, 28, 1);
-        sleep(500);
-
-        arm.setPower(0.4);
-        sleep(1000);
-        arm.setPower(0);
-        sleep(200);
-        arm.setPower(-.4);
-        sleep(500);
->>>>>>> origin/master
         arm.setPower(0);
 
         sleep(2000);
@@ -211,15 +163,11 @@ public class AutoBlue extends LinearOpMode{
         turn(225, turnPower);
         trackHeading(225, 20, 0.6);
         sleep(500);
-<<<<<<< HEAD
+
         turn(133,turnPower);
         sleep(500);
         trackHeading(133,140,1);
-=======
-        turn(135,turnPower);
-        sleep(500);
-        trackHeading(135,140,1);
->>>>>>> origin/master
+
         allStop();
 
 

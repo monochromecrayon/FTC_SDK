@@ -19,8 +19,4 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"/>
 </RelativeLayout>
-<<<<<<< HEAD
 <!-- From: file:/Users/tom/Documents/workspace/ftc_sdk/lib/FtcCommon/src/main/res/layout/activity_config_wifi_direct.xml --><!-- From: file:/C:/Users/FTC%20Programmer/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/build/intermediates/exploded-aar/FtcCommon-release/res/layout/activity_config_wifi_direct.xml -->
-=======
-<!-- From: file:/Users/tom/Documents/workspace/ftc_sdk/lib/FtcCommon/src/main/res/layout/activity_config_wifi_direct.xml --><!-- From: file:/C:/Users/Robot/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/build/intermediates/exploded-aar/FtcCommon-release/res/layout/activity_config_wifi_direct.xml -->
->>>>>>> origin/master

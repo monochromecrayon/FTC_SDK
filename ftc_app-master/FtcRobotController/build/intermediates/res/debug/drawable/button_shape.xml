@@ -25,8 +25,4 @@
     android:color="#878787"
     />
 </shape>
-<<<<<<< HEAD
 <!-- From: file:/Users/tom/Documents/workspace/ftc_sdk/lib/FtcCommon/src/main/res/drawable/button_shape.xml --><!-- From: file:/C:/Users/FTC%20Programmer/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/build/intermediates/exploded-aar/FtcCommon-release/res/drawable/button_shape.xml -->
-=======
-<!-- From: file:/Users/tom/Documents/workspace/ftc_sdk/lib/FtcCommon/src/main/res/drawable/button_shape.xml --><!-- From: file:/C:/Users/Robot/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/build/intermediates/exploded-aar/FtcCommon-release/res/drawable/button_shape.xml -->
->>>>>>> origin/master

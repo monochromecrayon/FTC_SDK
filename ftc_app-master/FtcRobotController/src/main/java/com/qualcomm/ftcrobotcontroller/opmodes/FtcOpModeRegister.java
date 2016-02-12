@@ -55,7 +55,6 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-<<<<<<< HEAD
     manager.register("Manual Control", MainTeleOp.class);
     manager.register("Auto BLUE", AutoBlue.class);
     manager.register("Auto RED", AutoRed.class);
@@ -64,18 +63,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("RED Quick Climb", RedQuickClimb.class);
     manager.register("RED Rescue Zone Stop", RedRescueZoneStop.class);
     manager.register("BLEU Rescue Zone Stop", BlueRescueZoneStop.class);
-=======
-    /*
-     * Gus Caplan's TankBot Op
-     *
-     *
-     */
-    manager.register("Manual Control", MainTeleOp.class);
-    manager.register("Auto BLUE", AutoBlue.class);
-    manager.register("Auto RED", AutoRed.class);
-    manager.register("__AUTO_BLUE__", AutoBlueWithKetchup.class);
-    manager.register("__AUTO_RED__", AutoRedWithMustard.class);
->>>>>>> origin/master
     //manager.register("GYRO TEST", MRGyroTest.class);
 
   }
