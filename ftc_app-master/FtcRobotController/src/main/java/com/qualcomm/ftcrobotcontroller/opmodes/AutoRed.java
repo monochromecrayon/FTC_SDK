@@ -27,7 +27,11 @@ import android.util.Log;
 
 
 /**
+<<<<<<< HEAD
  * Created by Gus Caplan and A. Lee on 02/12/2016.
+=======
+ * Created by Gus Caplan and A. Lee on 11/3/2015.
+>>>>>>> origin/master
  */
 
 public class AutoRed extends LinearOpMode{
@@ -44,8 +48,13 @@ public class AutoRed extends LinearOpMode{
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
 
+<<<<<<< HEAD
     //Servo leftFlappy;
     //Servo rightFlappy;
+=======
+    Servo leftFlappy;
+    Servo rightFlappy;
+>>>>>>> origin/master
 
 
 
@@ -81,8 +90,13 @@ public class AutoRed extends LinearOpMode{
         hardwareMap.logDevices();
         // bEnabled represents the state of the LED.
 
+<<<<<<< HEAD
       //  leftFlappy = hardwareMap.servo.get("leftFlappy");
       //  rightFlappy = hardwareMap.servo.get("rightFlappy");
+=======
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
+>>>>>>> origin/master
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
         // sensorColorLeft.enableLed(false);
@@ -91,6 +105,10 @@ public class AutoRed extends LinearOpMode{
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+<<<<<<< HEAD
+=======
+        arm.setDirection(DcMotor.Direction.REVERSE);
+>>>>>>> origin/master
 
         motorFrontRight.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         motorFrontLeft.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -104,6 +122,7 @@ public class AutoRed extends LinearOpMode{
         motorBackLeft.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         arm.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
+<<<<<<< HEAD
 
         sensorGyro.calibrate();
 
@@ -144,6 +163,40 @@ public class AutoRed extends LinearOpMode{
 
 
         turn(267, turnPower);
+=======
+        sensorGyro.calibrate();
+
+        double turnPower = 0.9;
+
+        waitForStart();
+
+        while (sensorGyro.isCalibrating()) {
+            Thread.sleep(50);
+        }
+
+        trackHeading(0, 24, 0.6);
+
+        leftFlappy.setDirection(Servo.Direction.FORWARD);
+        rightFlappy.setDirection(Servo.Direction.REVERSE);
+        leftFlappy.setPosition(0);
+        rightFlappy.setPosition(0);
+        sleep(250);
+        leftFlappy.setPosition(0.5);
+        sleep(250);
+        rightFlappy.setPosition(0.5);
+
+        arm.setPower(0.4);
+        sleep(350);
+        arm.setPower(0);
+
+        turn(315, turnPower);
+        sleep(500);
+        trackHeading(315, 57, 0.6);
+
+        sleep(500);
+
+        turn(265, turnPower);
+>>>>>>> origin/master
         sleep(500);
         trackHeading(270, 28, 1);
         sleep(500);
@@ -165,7 +218,11 @@ public class AutoRed extends LinearOpMode{
         sleep(500);
         turn(225,turnPower);
         sleep(500);
+<<<<<<< HEAD
         trackHeading(224,140,1);
+=======
+        trackHeading(225,140,1);
+>>>>>>> origin/master
         allStop();
 
 

@@ -4,4 +4,8 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>
+<<<<<<< HEAD
 <!-- From: file:/C:/Users/FTC%20Programmer/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/src/main/res/menu/menu_load.xml -->
+=======
+<!-- From: file:/C:/Users/Robot/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/src/main/res/menu/menu_load.xml -->
+>>>>>>> origin/master

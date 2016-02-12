@@ -24,4 +24,8 @@
     android:width="3dp"
     android:color="#878787"
     />
+<<<<<<< HEAD
 </shape> <!-- From: file:/C:/Users/FTC%20Programmer/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/src/main/res/drawable-hdpi/button_shape.xml -->
+=======
+</shape> <!-- From: file:/C:/Users/Robot/Desktop/FTC_SDK-master/ftc_app-master/FtcRobotController/src/main/res/drawable-hdpi/button_shape.xml -->
+>>>>>>> origin/master
