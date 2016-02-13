@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 
 import com.qualcomm.robotcore.hardware.I2cController;
 import com.qualcomm.robotcore.hardware.I2cDevice;
@@ -25,14 +24,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import android.util.Log;
 
-
-/**
-<<<<<<< HEAD
- * Created by Gus Caplan and A. Lee on 02/12/2016.
-=======
- * Created by Gus Caplan and A. Lee on 11/3/2015.
->>>>>>> origin/master
- */
+// Created by Gus Caplan on 03/11/2015.
 
 public class AutoRed extends LinearOpMode{
     //private static final String TAG = "ROBOT";
@@ -48,7 +40,7 @@ public class AutoRed extends LinearOpMode{
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
 
-    //Servo leftFlappy;
+    //Servo leftFlappy; // SERVOS STILL REKT
     //Servo rightFlappy;
 
 

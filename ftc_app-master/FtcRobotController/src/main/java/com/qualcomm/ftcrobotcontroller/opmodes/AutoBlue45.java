@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 
 import com.qualcomm.robotcore.hardware.I2cController;
 import com.qualcomm.robotcore.hardware.I2cDevice;

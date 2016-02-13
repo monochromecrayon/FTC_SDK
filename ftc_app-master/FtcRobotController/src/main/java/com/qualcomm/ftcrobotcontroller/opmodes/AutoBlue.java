@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 
 import com.qualcomm.robotcore.hardware.I2cController;
 import com.qualcomm.robotcore.hardware.I2cDevice;
@@ -27,11 +26,10 @@ import android.util.Log;
 
 
 /**
- * Created by Gus Caplan and A. Lee on 11/3/2015.
+ * Created by Gus Caplan on 11/3/2015.
  */
 
 public class AutoBlue extends LinearOpMode{
-    //private static final String TAG = "ROBOT";
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -44,7 +42,7 @@ public class AutoBlue extends LinearOpMode{
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
 
-    //Servo leftFlappy;
+    //Servo leftFlappy; // SERVOS GET REKT
     //Servo rightFlappy;
 
 
@@ -175,14 +173,6 @@ public class AutoBlue extends LinearOpMode{
         //SENSOR TEST
         /*
         while (opModeIsActive()) {
-            //float values[] = hsvValues;
-            // hsvValues is an array that will hold the hue, saturation, and value information.
-            //Color.RGBToHSV(sensorColorLeft.red()*8, sensorColorLeft.green()*8, sensorColorLeft.blue()*8, hsvValues);
-
-            // es is a reference to the hsvValues array.
-
-
-            //sensorColorLeft.RGBToHSV(sensorColorLeft.red()*8, sensorColorLeft.green()*8, sensorColorLeft.blue()*8, hsvValues);
 
             telemetry.addData("rawX", sensorGyro.rawX());
             //telemetry.addData("Heading ", sensorGyro.getHeading());

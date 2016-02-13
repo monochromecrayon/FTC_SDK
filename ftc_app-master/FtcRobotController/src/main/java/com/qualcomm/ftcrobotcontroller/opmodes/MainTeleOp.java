@@ -8,13 +8,8 @@ import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-/**
-<<<<<<< HEAD
- * Created by Gus Caplan on 11/03/2015.
-=======
- * Created by Gus Caplan on 11/3/2015.
->>>>>>> origin/master
- */
+
+//Created by Gus Caplan on 11/03/2015.
 
 public class MainTeleOp extends OpMode {
 
@@ -117,8 +112,8 @@ public class MainTeleOp extends OpMode {
 
         if(right == 0 && left == 0) {
             // separate wheel control
-            frontRight = Math.round(gamepad1.right_trigger) - (gamepad1.right_bumper ? 1 : 0); // ternary operator "(CONDITION) ? IF_TRUE : IF_FALSE" "https://en.wikipedia.org/wiki/%3F:#Java"
-            frontLeft = Math.round(gamepad1.left_trigger) - (gamepad1.left_bumper ? 1 : 0);
+            frontRight = Math.round(gamepad1.right_trigger) - (gamepad1.right_bumper ? 1 : 0); // ternary operator "https://en.wikipedia.org/wiki/%3F:#Java"
+            frontLeft = Math.round(gamepad1.left_trigger) - (gamepad1.left_bumper ? 1 : 0);    // (CONDITION) ? IF TRUE : IF FALSE
             backRight = (gamepad1.y ? 1 : 0) - (gamepad1.a ? 1 : 0);
             backLeft = (gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0);
         }
