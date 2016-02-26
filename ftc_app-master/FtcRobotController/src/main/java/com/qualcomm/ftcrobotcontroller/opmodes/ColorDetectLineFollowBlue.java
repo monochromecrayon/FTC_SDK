@@ -122,7 +122,7 @@ public class ColorDetectLineFollowBlue extends LinearOpMode{
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-        trackHeading(0, 60, 0.5);
+        trackHeading(0, 65, 0.5);
 
         arm.setPower(0.5);
         sleep(350);
