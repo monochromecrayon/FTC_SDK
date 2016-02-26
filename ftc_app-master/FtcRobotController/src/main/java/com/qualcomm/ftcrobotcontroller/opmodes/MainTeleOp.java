@@ -21,8 +21,10 @@ public class MainTeleOp extends OpMode {
     DcMotor winch;
     DcMotor arm;
 
-    //Servo leftFlappy;
-    //Servo rightFlappy;
+    Servo leftFlappy;
+    Servo rightFlappy;
+    Servo ODSS;
+
     /**
      * Constructor
      */
@@ -45,9 +47,9 @@ public class MainTeleOp extends OpMode {
 		 * configured your robot and created the configuration file.
         */
 
-       // leftFlappy = hardwareMap.servo.get("leftFlappy");
-      //  rightFlappy = hardwareMap.servo.get("rightFlappy");
-
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
+        ODSS = hardwareMap.servo.get("ODSS");
         motorFrontRight = hardwareMap.dcMotor.get("frontRight");
 
         motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
@@ -71,6 +73,9 @@ public class MainTeleOp extends OpMode {
         arm.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         winch.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
+        ODSS.setPosition(1);
+        leftFlappy.setPosition(0.5);
+        rightFlappy.setPosition(0.5);
 
     }
 
@@ -109,7 +114,6 @@ public class MainTeleOp extends OpMode {
         frontLeft = left;
         backRight = right;
         backLeft = left;
-        /*
         if(right == 0 && left == 0) {
             // separate wheel control
             frontRight = Math.round(gamepad1.right_trigger) - (gamepad1.right_bumper ? 1 : 0); // ternary operator "https://en.wikipedia.org/wiki/%3F:#Java"
@@ -117,7 +121,6 @@ public class MainTeleOp extends OpMode {
             backRight = (gamepad1.y ? 1 : 0) - (gamepad1.a ? 1 : 0);
             backLeft = (gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0);
         }
-        */
 
         motorFrontRight.setPower(frontRight);
         motorFrontLeft.setPower(frontLeft);
@@ -128,12 +131,12 @@ public class MainTeleOp extends OpMode {
         float stick2ly = gamepad2.left_stick_y;
         float stick2ry = -gamepad2.right_stick_y;
 
-        /*
-        float sspeed = 0;
+
+        float sspeed = (float) 0.3;
         if (gamepad2.a) {
-            sspeed = (float) 0.3;
+            sspeed = (float) 0;
         } else {
-            sspeed = 0;
+            sspeed = (float) 0.3;
         }
 
         if (gamepad2.left_trigger > 0.5) {
@@ -150,13 +153,12 @@ public class MainTeleOp extends OpMode {
         if (gamepad2.right_trigger > 0.5) {
 
             //rightFlappy.setDirection(Servo.Direction.REVERSE);
-            rightFlappy.setPosition(sspeed);
+            rightFlappy.setPosition(1-sspeed);
         }
         else if(gamepad2.right_bumper){
             //rightFlappy.setDirection(Servo.Direction.FORWARD);
-            rightFlappy.setPosition(1-sspeed);}
+            rightFlappy.setPosition(sspeed);}
         else{rightFlappy.setPosition(0.5);}
-        */
 
 
         arm.setPower(stick2ly/3);

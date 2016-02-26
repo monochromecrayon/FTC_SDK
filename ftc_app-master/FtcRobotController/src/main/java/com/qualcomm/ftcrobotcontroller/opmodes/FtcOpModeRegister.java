@@ -65,6 +65,9 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("RED Rescue Zone Stop", RedRescueZoneStop.class);
     manager.register("BLUE Rescue Zone Stop", BlueRescueZoneStop.class);
     manager.register("BLUE Color Detect Line Follow", ColorDetectLineFollowBlue.class);
+    manager.register("RED Color Detect Line Follow", ColorDetectLineFollowRed.class);
+    manager.register("FullMontyRed", FullMontyRed.class);
+    manager.register("FullMontyBlue", FullMontyBlue.class);
     //manager.register("GYRO TEST", MRGyroTest.class);
 
   }

@@ -45,8 +45,8 @@ public class ColorDetectLineFollowBlue extends LinearOpMode{
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
 
-    //Servo leftFlappy; // SERVOS GET REKT
-    //Servo rightFlappy;
+    Servo leftFlappy; // SERVOS GET REKT
+    Servo rightFlappy;
     Servo ODSS;
 
 
@@ -84,8 +84,8 @@ public class ColorDetectLineFollowBlue extends LinearOpMode{
         // bEnabled represents the state of the LED.
         ODS= hardwareMap.opticalDistanceSensor.get("ODS");
         ODSS = hardwareMap.servo.get("ODSS");
-        //leftFlappy = hardwareMap.servo.get("leftFlappy");
-        // rightFlappy = hardwareMap.servo.get("rightFlappy");
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
         // sensorColorLeft.enableLed(false);
@@ -107,57 +107,52 @@ public class ColorDetectLineFollowBlue extends LinearOpMode{
         motorBackLeft.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         arm.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
+
         sensorGyro.calibrate();
         double ODSCal = ODS.getLightDetected();
 
-        double turnPower = 0.9;
-
+        double turnPower = 0.8;
+        ODSS.setPosition(0);
+        leftFlappy.setPosition(0.5);
+        rightFlappy.setPosition(0.5);
         waitForStart();
+        leftFlappy.setPosition(0.5);
+        rightFlappy.setPosition(0.5);
 
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-        trackHeading(0, 20, 0.6);
+        trackHeading(0, 60, 0.5);
 
         arm.setPower(0.5);
         sleep(350);
         arm.setPower(0);
 
         //trackHeading(0, 30, 0.6);
-        trackHeadingLightStop(0, 80, 0.2, ODSCal, lightTolerance);
+        ODSS.setPosition(0.7);
+        trackHeadingLightStop(0, 40, 0.4, ODSCal, lightTolerance);
+        allStop();
         sleep(500);
-        //trackHeading(0,6,0.2);
-
-        /* DISABLE SERVOS B/C NOT WORKING WELL
-        leftFlappy.setDirection(Servo.Direction.FORWARD);
-        //rightFlappy.setDirection(Servo.Direction.REVERSE);
-        leftFlappy.setPosition(0);
-        //rightFlappy.setPosition(0);
-        sleep(560);
-        leftFlappy.setPosition(0.5);
-        //rightFlappy.setPosition(0.5);
-        */
 
 
-        ODSS.setPosition(1);
+        ODSS.setPosition(0);
 
         turn(40, turnPower);
         sleep(500);
+        trackHeading(45,10,1);
+        forward(500, 1);
 
-        trackHeading(45, 20, 0.2);
 
         sleep(500);
 
 
-        arm.setPower(0.3);
+        arm.setPower(0.6);
         sleep(900);
         arm.setPower(0);
         sleep(200);
-        arm.setPower(-.4);
+        arm.setPower(-.5);
         sleep(400);
         arm.setPower(0);
-
-        ODSS.setPosition(0.06);
 
         sleep(2000);
         allStop();
@@ -487,6 +482,16 @@ public class ColorDetectLineFollowBlue extends LinearOpMode{
         motorBackRight.setPower(0);
         motorBackLeft.setPower(0);
         sleep(100);
+    }
+    public void forward(int time, double power) throws InterruptedException{
+
+
+        motorFrontRight.setPower(power);
+        motorFrontLeft.setPower(power);
+        motorBackRight.setPower(power);
+        motorBackLeft.setPower(power);
+        sleep(time);
+        allStop();
     }
 
 

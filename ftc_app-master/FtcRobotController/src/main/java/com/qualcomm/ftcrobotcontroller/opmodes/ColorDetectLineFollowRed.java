@@ -5,12 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.ServoController;
-//Haha this comment is normally hidden
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 import com.qualcomm.robotcore.hardware.I2cController;
 import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.qualcomm.robotcore.util.TypeConversion;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import android.app.Activity;
@@ -26,11 +28,10 @@ import android.util.Log;
 
 
 /**
- * Created by Mus Caplan and A. Lee on 11/3/2015.
+ * Created by Gus Caplan on 11/3/2015.
  */
 
-public class  BlueDumpAndStop extends LinearOpMode{
-    //private static final String TAG = "ROBOT";
+public class ColorDetectLineFollowRed extends LinearOpMode{
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -39,11 +40,14 @@ public class  BlueDumpAndStop extends LinearOpMode{
     DcMotor winch;
     DcMotor arm;
     GyroSensor sensorGyro; //OLD VERSION
+    OpticalDistanceSensor ODS;
     //ColorSensor sensorColorLeft;
     //ColorSensor sensorColorRight;
     //ModernRoboticsI2cGyro sensorGyro;  //MODERN ROBOTICS VERSION
-  //  Servo leftFlappy;
-  //  Servo rightFlappy;
+
+    Servo leftFlappy; // SERVOS GET REKT
+    Servo rightFlappy;
+    Servo ODSS;
 
 
 
@@ -53,7 +57,7 @@ public class  BlueDumpAndStop extends LinearOpMode{
     final static int DISTANCE = 72;
     public int count = 0;
 
-
+    final static double lightTolerance = 0.3;
 
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = 72 / CIRCUMFERENCE;
@@ -78,9 +82,10 @@ public class  BlueDumpAndStop extends LinearOpMode{
         winch = hardwareMap.dcMotor.get("winch");
         hardwareMap.logDevices();
         // bEnabled represents the state of the LED.
-
-  //      leftFlappy = hardwareMap.servo.get("leftFlappy");
-  //      rightFlappy = hardwareMap.servo.get("rightFlappy");
+        ODS= hardwareMap.opticalDistanceSensor.get("ODS");
+        ODSS = hardwareMap.servo.get("ODSS");
+        leftFlappy = hardwareMap.servo.get("leftFlappy");
+        rightFlappy = hardwareMap.servo.get("rightFlappy");
         // turn the LED on in the beginning, just so user will know that the sensor is active.
         //sensorColorRight.enableLed(false);
         // sensorColorLeft.enableLed(false);
@@ -102,73 +107,59 @@ public class  BlueDumpAndStop extends LinearOpMode{
         motorBackLeft.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         arm.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
-
         sensorGyro.calibrate();
+        double ODSCal = ODS.getLightDetected();
 
-
-
-        double turnPower = 0.9;
-
-
+        double turnPower = 0.8;
+        ODSS.setPosition(0);
+        leftFlappy.setPosition(0.5);
+        rightFlappy.setPosition(0.5);
         waitForStart();
-
+        leftFlappy.setPosition(0.5);
+        rightFlappy.setPosition(0.5);
 
         while (sensorGyro.isCalibrating()) {
             Thread.sleep(50);}
 
-
-        trackHeading(0, 24, 0.6);
-
-        /* DISABLE SERVOS B/C NOT WORKING WELL
-        leftFlappy.setDirection(Servo.Direction.FORWARD);
-        //rightFlappy.setDirection(Servo.Direction.REVERSE);
-        leftFlappy.setPosition(0);
-        //rightFlappy.setPosition(0);
-        sleep(560);
-        leftFlappy.setPosition(0.5);
-        //rightFlappy.setPosition(0.5);
-        */
+        trackHeading(0, 60, 0.5);
 
         arm.setPower(0.5);
         sleep(350);
         arm.setPower(0);
 
-        turn(45, turnPower);
-        sleep(500);
-        trackHeading(45, 57, 0.6);
-
-        sleep(500);
-
-
-
-        turn(85, turnPower);
-        sleep(500);
-        trackHeading(89, 28, 1);
+        //trackHeading(0, 30, 0.6);
+        ODSS.setPosition(0.7);
+        trackHeadingLightStop(0, 40, 0.4, ODSCal, lightTolerance);
+        allStop();
         sleep(500);
 
-        arm.setPower(0.3);
-        sleep(900 );
+
+        ODSS.setPosition(0);
+
+        turn(320, turnPower);
+        sleep(500);
+        trackHeading(315, 10, 1);
+        forward(500,1);
+
+
+        sleep(500);
+
+
+        arm.setPower(0.6);
+        sleep(900);
         arm.setPower(0);
         sleep(200);
-        arm.setPower(-.4);
-        sleep(500);
+        arm.setPower(-.5);
+        sleep(400);
         arm.setPower(0);
 
+        sleep(2000);
         allStop();
-
 
 
         //SENSOR TEST
         /*
         while (opModeIsActive()) {
-            //float values[] = hsvValues;
-            // hsvValues is an array that will hold the hue, saturation, and value information.
-            //Color.RGBToHSV(sensorColorLeft.red()*8, sensorColorLeft.green()*8, sensorColorLeft.blue()*8, hsvValues);
-
-            // es is a reference to the hsvValues array.
-
-
-            //sensorColorLeft.RGBToHSV(sensorColorLeft.red()*8, sensorColorLeft.green()*8, sensorColorLeft.blue()*8, hsvValues);
 
             telemetry.addData("rawX", sensorGyro.rawX());
             //telemetry.addData("Heading ", sensorGyro.getHeading());
@@ -191,7 +182,7 @@ public class  BlueDumpAndStop extends LinearOpMode{
     /////////////////////
 
     public void trackHeading(int desired_heading, int distance, double power)throws InterruptedException {
-        int millis = 10000;
+        int millis = 5000;
         double _power = power;
         int ENCODER_CPR = 1120;
         double GEAR_RATIO = 1.5;
@@ -209,7 +200,7 @@ public class  BlueDumpAndStop extends LinearOpMode{
         double COUNTSFL = flcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
         resetStartTime();
         int my_heading = sensorGyro.getHeading();
-        while ((flcount + frcount)/2 < ((COUNTSFL + COUNTSFR)/2) && getRuntime() < millis) {
+        while ((flcount + frcount)/2 < ((COUNTSFL + COUNTSFR)/2) && getRuntime() < millis ) {
             blcount = motorBackLeft.getCurrentPosition();
             brcount = motorBackRight.getCurrentPosition();
             frcount = motorFrontRight.getCurrentPosition();
@@ -262,7 +253,71 @@ public class  BlueDumpAndStop extends LinearOpMode{
         allStop();
     }
 
+    public void trackHeadingLightStop(int desired_heading, int distance, double power, double ODSCal, double lightTolerance)throws InterruptedException {
+        int millis = 10000;
+        double _power = power;
+        int ENCODER_CPR = 1120;
+        double GEAR_RATIO = 1.5;
+        int WHEEL_DIAMETER = 6;
+        double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+        double ROTATIONS = distance / CIRCUMFERENCE;
+        int blcount = motorBackLeft.getCurrentPosition();
+        int brcount = motorBackRight.getCurrentPosition();
+        int frcount = motorFrontRight.getCurrentPosition();
+        int flcount = motorFrontLeft.getCurrentPosition();
 
+        double COUNTSBL = blcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+        double COUNTSBR = brcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+        double COUNTSFR = frcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+        double COUNTSFL = flcount + ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+        resetStartTime();
+        int my_heading = sensorGyro.getHeading();
+        while ((flcount + frcount)/2 < ((COUNTSFL + COUNTSFR)/2) && getRuntime() < millis && (ODS.getLightDetected() < ODSCal + lightTolerance)) {
+            blcount = motorBackLeft.getCurrentPosition();
+            brcount = motorBackRight.getCurrentPosition();
+            frcount = motorFrontRight.getCurrentPosition();
+            flcount = motorFrontLeft.getCurrentPosition();
+            my_heading = sensorGyro.getHeading();
+            int delta = desired_heading - my_heading;  //Left Turn Example 340 - 20 ... delta=320  Right Turn Example 20 - 340... delta = -320
+            if (Math.abs(delta) > 180) {
+                if (desired_heading >= 270) {
+                    delta = -(360 - desired_heading + my_heading);  //Left Turn example delta = -(360-340+20) = -40
+                }
+                if (desired_heading <= 90) {
+                    delta = desired_heading + (360 - my_heading);
+                }  //Right Turn exmaple delta = 20 + (360-340) = 40
+            }
+            if (blcount < COUNTSBL + 1000 && brcount < COUNTSBR + 1000) {
+                power = .5;
+            }
+            if (delta > 0) {
+                motorBackLeft.setPower(power);
+                motorFrontLeft.setPower(power);
+                motorFrontRight.setPower(power / delta);
+                motorBackRight.setPower(power / delta);
+            }
+            else if (delta < 0) {
+                motorBackLeft.setPower(-power / delta);
+                motorFrontLeft.setPower(-power / delta);
+                motorBackRight.setPower(power);
+                motorFrontRight.setPower(power);
+
+            }
+            else {
+                motorFrontRight.setPower(power);
+                motorFrontLeft.setPower(power);
+                motorBackRight.setPower(power);
+                motorBackLeft.setPower(power);
+
+            }
+            sleep(20);
+
+
+        }
+
+
+        allStop();
+    }
 
     public int encoderForward(int distance, double power)throws InterruptedException {
 
@@ -425,6 +480,16 @@ public class  BlueDumpAndStop extends LinearOpMode{
         motorBackRight.setPower(0);
         motorBackLeft.setPower(0);
         sleep(100);
+    }
+    public void forward(int time, double power) throws InterruptedException{
+
+
+        motorFrontRight.setPower(power);
+        motorFrontLeft.setPower(power);
+        motorBackRight.setPower(power);
+        motorBackLeft.setPower(power);
+        sleep(time);
+        allStop();
     }
 
 
