@@ -13,17 +13,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class MainTeleOp extends OpMode {
 
-    DcMotor motorFrontRight;
-    DcMotor motorFrontLeft;
-    DcMotor motorBackRight;
-    DcMotor motorBackLeft;
-
-    DcMotor winch;
-    DcMotor arm;
-
-    Servo leftFlappy;
-    Servo rightFlappy;
-    Servo ODSS;
+    DcMotor right;
+    DcMotor left;
+    DcMotor back;
 
     /**
      * Constructor
@@ -47,35 +39,19 @@ public class MainTeleOp extends OpMode {
 		 * configured your robot and created the configuration file.
         */
 
-        leftFlappy = hardwareMap.servo.get("leftFlappy");
-        rightFlappy = hardwareMap.servo.get("rightFlappy");
-        ODSS = hardwareMap.servo.get("ODSS");
-        motorFrontRight = hardwareMap.dcMotor.get("frontRight");
-
-        motorFrontLeft = hardwareMap.dcMotor.get("frontLeft");
-        motorBackRight = hardwareMap.dcMotor.get("backRight");
-        motorBackLeft = hardwareMap.dcMotor.get("backLeft");
-
-        winch = hardwareMap.dcMotor.get("winch");
-        arm = hardwareMap.dcMotor.get("arm");
+        right = hardwareMap.dcMotor.get("right");
+        left = hardwareMap.dcMotor.get("left");
+        back = hardwareMap.dcMotor.get("back");
 
         //reverse left motors because they are facing opposite the right ones
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        right.setDirection(DcMotor.Direction.REVERSE);
 
         arm.setDirection(DcMotor.Direction.REVERSE);
 
 
-        motorFrontRight.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        motorFrontLeft.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        motorBackRight.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        motorBackLeft.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        arm.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        winch.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-
-        ODSS.setPosition(1);
-        leftFlappy.setPosition(0.5);
-        rightFlappy.setPosition(0.5);
+        right.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        left.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        back.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
     }
 
@@ -94,76 +70,25 @@ public class MainTeleOp extends OpMode {
 
         // throttle: left_stick_y ranges from -1 to 1, where -1 is full up, and
         // 1 is full down
-        float frontRight = 0;
-        float frontLeft = 0;
-        float backRight = 0;
-        float backLeft = 0;
-        float right = -gamepad1.right_stick_y;
-        float left = -gamepad1.left_stick_y;
+        float backS = 0;
+        float rightS = -gamepad1.right_stick_y;
+        float leftS = -gamepad1.left_stick_y;
 
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
-        right = (float) scaleInput(right);
-        left = (float) scaleInput(left);
+        rightS = (float) scaleInput(rightS);
+        leftS = (float) scaleInput(leftS);
 
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
+        rightS = Range.clip(rightS, -1, 1);
+        leftS = Range.clip(leftS, -1, 1);
 
-        frontRight = right;
-        frontLeft = left;
-        backRight = right;
-        backLeft = left;
-        if(right == 0 && left == 0) {
-            // separate wheel control
-            frontRight = Math.round(gamepad1.right_trigger) - (gamepad1.right_bumper ? 1 : 0); // ternary operator "https://en.wikipedia.org/wiki/%3F:#Java"
-            frontLeft = Math.round(gamepad1.left_trigger) - (gamepad1.left_bumper ? 1 : 0);    // (CONDITION) ? IF TRUE : IF FALSE
-            backRight = (gamepad1.y ? 1 : 0) - (gamepad1.a ? 1 : 0);
-            backLeft = (gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0);
-        }
+        right.setPower(rightS);
+        left.setPower(leftS);
 
-        motorFrontRight.setPower(frontRight);
-        motorFrontLeft.setPower(frontLeft);
-        motorBackRight.setPower(backRight);
-        motorBackLeft.setPower(backLeft);
+        backS = leftS - rightS;
 
-        //////////////////////////
-        float stick2ly = gamepad2.left_stick_y;
-        float stick2ry = -gamepad2.right_stick_y;
-
-
-        float sspeed = (float) 0.3;
-        if (gamepad2.a) {
-            sspeed = (float) 0;
-        } else {
-            sspeed = (float) 0.3;
-        }
-
-        if (gamepad2.left_trigger > 0.5) {
-            //leftFlappy.setDirection(Servo.Direction.FORWARD);
-            leftFlappy.setPosition(sspeed);
-        }
-        else if(gamepad2.left_bumper){
-            //leftFlappy.setDirection(Servo.Direction.REVERSE);
-            leftFlappy.setPosition(1-sspeed);}
-
-        else{leftFlappy.setPosition(0.5);} // 0.5 is off, 0 is on
-
-
-        if (gamepad2.right_trigger > 0.5) {
-
-            //rightFlappy.setDirection(Servo.Direction.REVERSE);
-            rightFlappy.setPosition(1-sspeed);
-        }
-        else if(gamepad2.right_bumper){
-            //rightFlappy.setDirection(Servo.Direction.FORWARD);
-            rightFlappy.setPosition(sspeed);}
-        else{rightFlappy.setPosition(0.5);}
-
-
-        arm.setPower(stick2ly/3);
-
-        winch.setPower(stick2ry);
+        back.setPower(backS);
     }
 
     /*
