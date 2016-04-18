@@ -87,6 +87,8 @@ public class MainTeleOp extends OpMode {
         left.setPower(leftS);
 
         backS = leftS - rightS;
+        
+        backS = Range.clip(backS, -1, 1); // if left stick was 1 and right stick was -1 then backS would be 2, which would make errors.
 
         back.setPower(backS);
     }
